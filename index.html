@@ -1,0 +1,4813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diary 🌷</title>
+
+<style>
+
+
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #4b2424;
+
+  background:
+    radial-gradient(
+      circle at 50% 12%,
+      #ffffff 0%,
+      #fafafa 48%,
+      #eeeeee 100%
+    );
+}
+
+
+
+
+.glow {
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.8);
+  filter: blur(70px);
+  top: -250px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.table {
+  position: fixed;
+  left: -5%;
+  bottom: -7%;
+  width: 110%;
+  height: 56%;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(70,35,20,.07) 0px,
+      rgba(70,35,20,.07) 3px,
+      transparent 3px,
+      transparent 75px
+    ),
+    linear-gradient(
+      180deg,
+      #a66747,
+      #78432e
+    );
+
+  box-shadow:
+    inset 0 10px 30px rgba(40,15,5,.16),
+    0 -10px 30px rgba(60,25,15,.14);
+
+  transform:
+    perspective(700px)
+    rotateX(3deg);
+}
+
+
+
+
+.intro {
+  position: fixed;
+  top: 7%;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5;
+
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.intro h1 {
+  margin: 0;
+
+  font-size:
+    clamp(30px, 8vw, 48px);
+
+  font-weight: normal;
+  color: #762c38;
+}
+
+.intro p {
+  margin: 10px 0 0;
+
+  font-size:
+    clamp(15px, 4vw, 19px);
+
+  color: #713d3d;
+}
+
+
+
+
+.book-area {
+  position: fixed;
+
+  z-index: 10;
+
+  left: 50%;
+  top: 54%;
+
+  width: min(195px, 44vw);
+  height: min(300px, 67vw);
+
+  transform:
+    translate(-50%, -50%);
+
+  transition:
+    width 1.15s cubic-bezier(.16,1,.3,1),
+    transform 1s cubic-bezier(.16,1,.3,1),
+    opacity .7s ease;
+}
+
+
+
+
+.book-area.opened {
+  width: min(390px, 88vw);
+}
+
+
+
+
+.book-area.diary-leaving {
+  transform:
+    translate(-50%, 125vh)
+    rotate(-3deg);
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+
+
+.book-shadow {
+  position: absolute;
+
+  left: 5%;
+  top: 15%;
+
+  width: 90%;
+  height: 78%;
+
+  border-radius: 20px;
+
+  background:
+    rgba(40,15,10,.42);
+
+  filter: blur(18px);
+
+  transform:
+    translateY(22px);
+
+  transition:
+    width 1.15s cubic-bezier(.16,1,.3,1),
+    opacity 1s ease,
+    transform 1.15s ease;
+}
+
+.book-area.opened .book-shadow {
+  width: 90%;
+  transform: translateY(22px);
+}
+
+
+
+
+.book {
+  position: absolute;
+  inset: 0;
+
+  perspective: 1800px;
+
+  filter:
+    drop-shadow(
+      0 16px 14px rgba(50,20,10,.24)
+    );
+
+  transform-style: preserve-3d;
+
+  touch-action: manipulation;
+}
+
+
+
+
+.book-shell {
+  position: absolute;
+  inset: 0;
+
+  border-radius:
+    8px 20px 20px 8px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #300811,
+      #4b101b 45%,
+      #671c29
+    );
+
+  box-shadow:
+    0 9px 15px rgba(40,10,10,.35),
+    inset 0 0 0 2px rgba(255,220,190,.13);
+
+  transform-origin: center center;
+
+  transform:
+    scaleX(.5);
+
+  transition:
+    transform 1.15s cubic-bezier(.16,1,.3,1);
+
+  z-index: 1;
+}
+
+.book-area.opened .book-shell {
+  transform: scaleX(1);
+}
+
+
+
+
+.book-shell::before {
+  content: "";
+
+  position: absolute;
+
+  top: 5px;
+  right: -5px;
+
+  width: 7px;
+  height: calc(100% - 10px);
+
+  border-radius:
+    0 8px 8px 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #e9d8bd 0px,
+      #e9d8bd 3px,
+      #c9b395 4px,
+      #f4e8d3 6px
+    );
+
+  opacity: .9;
+
+  box-shadow:
+    2px 2px 5px rgba(30,10,5,.2);
+}
+
+.book-shell::after {
+  content: "";
+
+  position: absolute;
+
+  left: 7px;
+  right: 3px;
+  bottom: -6px;
+
+  height: 7px;
+
+  border-radius:
+    0 0 12px 12px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #5b1724,
+      #350a12
+    );
+
+  box-shadow:
+    0 3px 5px rgba(30,10,5,.22);
+}
+
+
+
+
+.open-book {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  gap: 5px;
+
+  padding: 2px;
+
+  border-radius:
+    8px 18px 18px 8px;
+
+  background:
+    #e3d5c1;
+
+  overflow: visible;
+
+  opacity: 0;
+
+  transform:
+    scaleX(.5);
+
+  transform-origin: center center;
+
+  transition:
+    opacity .25s ease,
+    transform 1.15s cubic-bezier(.16,1,.3,1);
+
+  z-index: 2;
+}
+
+.book-area.opened .open-book {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+
+
+
+.white-page {
+  position: relative;
+
+  flex:
+    0 0 calc(50% - 2.5px);
+
+  width:
+    calc(50% - 2.5px);
+
+  height: 100%;
+
+  overflow: hidden;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.07) 30px
+    ),
+    #fffaf0;
+
+  box-shadow:
+    inset 0 0 20px rgba(80,40,20,.1);
+}
+
+.white-page.left {
+  border-radius:
+    8px 0 0 8px;
+}
+
+.white-page.right {
+  border-radius:
+    0 8px 8px 0;
+}
+
+.white-page.left::after {
+  content: "";
+
+  position: absolute;
+
+  right: -4px;
+  top: 0;
+
+  width: 8px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(60,30,20,.12)
+    );
+
+  pointer-events: none;
+}
+
+.white-page.right::before {
+  content: "";
+
+  position: absolute;
+
+  left: -4px;
+  top: 0;
+
+  width: 8px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(60,30,20,.12),
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+
+
+
+.for-you-page {
+  position: absolute;
+
+  right: 2px;
+  top: 2px;
+
+  width:
+    calc(50% - 4.5px);
+
+  height:
+    calc(100% - 4px);
+
+  border-radius:
+    0 8px 8px 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.07) 30px
+    ),
+    #fffaf0;
+
+  box-shadow:
+    inset 0 0 20px rgba(80,40,20,.1),
+    -2px 0 5px rgba(60,30,20,.08);
+
+  transform-origin:
+    left center;
+
+  transform-style:
+    preserve-3d;
+
+  backface-visibility:
+    hidden;
+
+  cursor: pointer;
+
+  z-index: 30;
+
+  transition:
+    transform 1.2s
+    cubic-bezier(.22,1,.36,1);
+}
+
+.open-book.page-turned .for-you-page {
+  transform:
+    rotateY(-180deg);
+
+  pointer-events: none;
+}
+
+.for-you-front {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  backface-visibility:
+    hidden;
+}
+
+.for-you-content {
+  text-align: center;
+
+  color: #6d4141;
+
+  font-size:
+    clamp(20px, 5.5vw, 29px);
+
+  line-height: 1.5;
+
+  padding: 15px;
+}
+
+.for-you-back {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.07) 30px
+    ),
+    #fffaf0;
+
+  backface-visibility:
+    hidden;
+
+  transform:
+    rotateY(180deg);
+}
+
+.for-you-back::after {
+  content: "♡";
+
+  color: #c69b9b;
+
+  font-size: 28px;
+
+  opacity: .45;
+}
+
+
+
+
+.book-spine {
+  position: absolute;
+
+  left: 50%;
+  top: 2px;
+
+  width: 5px;
+  height: calc(100% - 4px);
+
+  transform:
+    translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(55,20,20,.16),
+      rgba(255,255,255,.25),
+      rgba(55,20,20,.14)
+    );
+
+  z-index: 35;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transition:
+    opacity .6s ease;
+}
+
+.book-area.opened .book-spine {
+  opacity: 1;
+}
+
+
+
+
+.closed-cover {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius:
+    8px 20px 20px 8px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #300811,
+      #4b101b 45%,
+      #671c29
+    );
+
+  box-shadow:
+    0 9px 15px rgba(40,10,10,.35),
+    inset 0 0 0 2px rgba(255,220,190,.13);
+
+  transform-origin:
+    right center;
+
+  transform-style:
+    preserve-3d;
+
+  cursor: pointer;
+
+  z-index: 50;
+
+  transition:
+    transform 1.15s
+    cubic-bezier(.22,1,.36,1),
+    opacity .15s ease;
+}
+
+
+
+
+.closed-cover::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 14px;
+
+  border:
+    1px solid rgba(255,220,190,.27);
+
+  border-radius:
+    4px 11px 11px 4px;
+}
+
+
+
+
+.closed-cover .closed-spine {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 18%;
+  height: 100%;
+
+  border-radius:
+    8px 0 0 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #26070e,
+      #571521,
+      #3b0c15
+    );
+
+  box-shadow:
+    inset -5px 0 8px rgba(0,0,0,.25);
+}
+
+
+
+
+.closed-cover-title {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  color: #efd7bd;
+
+  font-family:
+    "Palatino Linotype",
+    "Book Antiqua",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(22px, 6vw, 31px);
+
+  font-style: italic;
+
+  font-weight: normal;
+
+  letter-spacing:
+    1.5px;
+
+  text-shadow:
+    0 2px 5px rgba(20,0,5,.35);
+
+  transform:
+    translateX(5%);
+
+  pointer-events: none;
+}
+
+
+
+
+.closed-cover-edge {
+  position: absolute;
+
+  top: 5px;
+  right: -5px;
+
+  width: 7px;
+  height: calc(100% - 10px);
+
+  border-radius:
+    0 8px 8px 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #e9d8bd 0px,
+      #e9d8bd 3px,
+      #c9b395 4px,
+      #f4e8d3 6px
+    );
+
+  box-shadow:
+    2px 2px 5px rgba(30,10,5,.2);
+}
+
+
+
+
+.book-area.opened .closed-cover {
+  transform:
+    rotateY(-180deg);
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+
+
+.letter-spread {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  gap: 5px;
+
+  padding: 2px;
+
+  background:
+    #e3d5c1;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 60;
+
+  overflow: visible;
+
+  transition:
+    opacity .25s ease;
+}
+
+.open-book.page-turned .letter-spread {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+
+.spread-page {
+  position: relative;
+
+  width:
+    calc(50% - 2.5px);
+
+  flex:
+    0 0 calc(50% - 2.5px);
+
+  height: 100%;
+
+  overflow: visible;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.07) 30px
+    ),
+    #fffaf0;
+
+  box-shadow:
+    inset 0 0 20px rgba(80,40,20,.1);
+
+  z-index: 61;
+}
+
+.spread-page.left {
+  border-radius:
+    8px 0 0 8px;
+}
+
+.spread-page.right {
+  border-radius:
+    0 8px 8px 0;
+}
+
+.spread-page.left::after {
+  content: "";
+
+  position: absolute;
+
+  right: -4px;
+  top: 0;
+
+  width: 8px;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(60,30,20,.1)
+    );
+
+  pointer-events: none;
+}
+
+
+
+
+.envelope {
+  position: absolute;
+
+  width: 57px;
+  height: 39px;
+
+  padding: 0;
+
+  border:
+    1px solid rgba(110,75,50,.18);
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f1dfc5,
+      #e2c8a7
+    );
+
+  box-shadow:
+    0 4px 7px rgba(60,30,20,.17);
+
+  cursor: pointer;
+
+  transition:
+    box-shadow .25s ease,
+    opacity .35s ease,
+    filter .25s ease;
+
+  z-index: 70;
+
+  display: block;
+}
+
+.envelope:hover {
+  box-shadow:
+    0 7px 13px rgba(60,30,20,.25);
+
+  filter:
+    brightness(1.04);
+}
+
+
+
+
+.envelope::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 0;
+  height: 0;
+
+  border-left:
+    28px solid transparent;
+
+  border-right:
+    28px solid transparent;
+
+  border-top:
+    20px solid #d5b691;
+
+  z-index: 2;
+}
+
+
+
+
+.envelope::after {
+  content: "";
+
+  position: absolute;
+
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+
+  height: 17px;
+
+  border-left:
+    1px solid rgba(100,60,40,.2);
+
+  border-right:
+    1px solid rgba(100,60,40,.2);
+
+  transform:
+    skewY(-24deg);
+
+  opacity: .7;
+}
+
+
+
+
+.envelope-heart {
+  position: absolute;
+
+  z-index: 5;
+
+  left: 50%;
+  top: 19px;
+
+  transform:
+    translateX(-50%);
+
+  font-size: 13px;
+
+  color: #8a3f4b;
+}
+
+
+
+
+.read-mark {
+  position: absolute;
+
+  right: -4px;
+  bottom: -5px;
+
+  z-index: 20;
+
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    #7b3f4b;
+
+  color: white;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  opacity: 0;
+
+  transform:
+    scale(.5);
+
+  transition:
+    opacity .3s ease,
+    transform .3s ease;
+
+  box-shadow:
+    0 2px 5px rgba(50,20,10,.25);
+}
+
+.envelope.read .read-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.envelope.read {
+  opacity: .82;
+}
+
+
+
+
+.left .envelope:nth-child(1) {
+  left: 8%;
+  top: 7%;
+  transform: rotate(-7deg);
+}
+
+.left .envelope:nth-child(2) {
+  left: 55%;
+  top: 5%;
+  transform: rotate(5deg);
+}
+
+.left .envelope:nth-child(3) {
+  left: 25%;
+  top: 20%;
+  transform: rotate(-3deg);
+}
+
+.left .envelope:nth-child(4) {
+  left: 64%;
+  top: 27%;
+  transform: rotate(7deg);
+}
+
+.left .envelope:nth-child(5) {
+  left: 5%;
+  top: 42%;
+  transform: rotate(3deg);
+}
+
+.left .envelope:nth-child(6) {
+  left: 48%;
+  top: 43%;
+  transform: rotate(-7deg);
+}
+
+.left .envelope:nth-child(7) {
+  left: 19%;
+  top: 60%;
+  transform: rotate(5deg);
+}
+
+.left .envelope:nth-child(8) {
+  left: 65%;
+  top: 63%;
+  transform: rotate(-4deg);
+}
+
+.left .envelope:nth-child(9) {
+  left: 7%;
+  top: 79%;
+  transform: rotate(-2deg);
+}
+
+.left .envelope:nth-child(10) {
+  left: 48%;
+  top: 82%;
+  transform: rotate(6deg);
+}
+
+
+
+
+.right .envelope:nth-child(1) {
+  left: 48%;
+  top: 6%;
+  transform: rotate(5deg);
+}
+
+.right .envelope:nth-child(2) {
+  left: 7%;
+  top: 9%;
+  transform: rotate(-4deg);
+}
+
+.right .envelope:nth-child(3) {
+  left: 28%;
+  top: 21%;
+  transform: rotate(6deg);
+}
+
+.right .envelope:nth-child(4) {
+  left: 64%;
+  top: 27%;
+  transform: rotate(-5deg);
+}
+
+.right .envelope:nth-child(5) {
+  left: 4%;
+  top: 42%;
+  transform: rotate(3deg);
+}
+
+.right .envelope:nth-child(6) {
+  left: 49%;
+  top: 44%;
+  transform: rotate(-6deg);
+}
+
+.right .envelope:nth-child(7) {
+  left: 21%;
+  top: 61%;
+  transform: rotate(4deg);
+}
+
+.right .envelope:nth-child(8) {
+  left: 66%;
+  top: 63%;
+  transform: rotate(-3deg);
+}
+
+.right .envelope:nth-child(9) {
+  left: 7%;
+  top: 79%;
+  transform: rotate(5deg);
+}
+
+.right .envelope:nth-child(10) {
+  left: 47%;
+  top: 82%;
+  transform: rotate(-5deg);
+}
+
+
+
+
+.book-back {
+  position: absolute;
+
+  left: 10px;
+  bottom: 10px;
+
+  z-index: 100;
+
+  padding:
+    8px 14px;
+
+  border: none;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,.92);
+
+  color: #6d4141;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 12px;
+
+  box-shadow:
+    0 3px 8px rgba(50,20,10,.18);
+
+  cursor: pointer;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity .3s ease,
+    transform .2s ease;
+}
+
+.book-area.opened .book-back {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.book-back:hover {
+  transform:
+    translateY(-2px);
+}
+
+
+
+
+.letter-modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  background:
+    rgba(60,35,30,.38);
+
+  backdrop-filter:
+    blur(7px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .45s ease;
+}
+
+.letter-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+
+.letter-paper {
+  position: relative;
+
+  width:
+    min(390px, 90vw);
+
+  max-height:
+    82vh;
+
+  padding:
+    35px 27px 30px;
+
+  overflow-y: auto;
+
+  border-radius: 4px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.07) 30px
+    ),
+    #fffaf0;
+
+  box-shadow:
+    0 20px 50px rgba(30,15,10,.3);
+
+  transform:
+    translateY(35px)
+    scale(.92)
+    rotate(-1deg);
+
+  transition:
+    transform .55s
+    cubic-bezier(.22,1,.36,1);
+}
+
+.letter-modal.show .letter-paper {
+  transform:
+    translateY(0)
+    scale(1)
+    rotate(0);
+}
+
+
+
+
+.letter-paper::before {
+  content: "";
+
+  position: absolute;
+
+  left: 14px;
+  top: 14px;
+  right: 14px;
+  bottom: 14px;
+
+  border:
+    1px solid rgba(120,75,60,.16);
+
+  pointer-events: none;
+}
+
+
+
+
+.letter-message {
+  position: relative;
+
+  z-index: 2;
+
+  padding:
+    8px 4px 10px;
+
+  font-size:
+    clamp(16px, 4.3vw, 19px);
+
+  line-height: 1.8;
+
+  color: #543737;
+
+  white-space: pre-line;
+
+  text-align: left;
+}
+
+
+
+
+.close-letter {
+  position: sticky;
+
+  float: right;
+
+  top: 0;
+
+  width: 34px;
+  height: 34px;
+
+  margin-top: -21px;
+  margin-right: -15px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    #ead7bd;
+
+  color: #6d4141;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  z-index: 5;
+}
+
+
+
+
+.skip-to-ending {
+  display: none;
+
+  position: fixed;
+
+  right: 4%;
+  bottom: 5%;
+
+  z-index: 60;
+
+  padding: 10px 20px;
+
+  border: none;
+
+  border-radius: 20px;
+
+  background:
+    #ead7bd;
+
+  color: #6d4141;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  box-shadow:
+    0 4px 10px rgba(60,25,15,.2);
+
+  cursor: pointer;
+}
+
+.skip-to-ending.show {
+  display: block;
+}
+
+
+
+
+.music-toggle {
+  position: fixed;
+
+  left: 4%;
+  top: 4%;
+
+  z-index: 210;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    #ead7bd;
+
+  color: #6d4141;
+
+  font-size: 17px;
+
+  box-shadow:
+    0 4px 10px rgba(60,25,15,.2);
+
+  cursor: pointer;
+}
+
+
+
+
+.letter-progress {
+  display: none;
+
+  position: fixed;
+
+  left: 50%;
+  top: 4%;
+
+  z-index: 60;
+
+  width: min(220px, 60vw);
+  height: 22px;
+
+  transform:
+    translateX(-50%);
+
+  align-items: center;
+
+  background:
+    rgba(255,255,255,.35);
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 3px 8px rgba(60,25,15,.2);
+}
+
+.letter-progress.show {
+  display: flex;
+}
+
+.letter-progress-fill {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  height: 100%;
+
+  width: 0%;
+
+  background:
+    #ead7bd;
+
+  border-radius: 14px;
+
+  transition: width .4s ease;
+}
+
+.letter-progress-label {
+  position: relative;
+
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #6d4141;
+
+  z-index: 1;
+}
+
+
+
+
+.tap {
+  position: fixed;
+
+  z-index: 20;
+
+  left: 50%;
+  bottom: 7%;
+
+  transform:
+    translateX(-50%);
+
+  color: #fff4eb;
+
+  font-size:
+    clamp(14px,4vw,18px);
+
+  text-shadow:
+    0 2px 5px rgba(50,20,10,.55);
+
+  animation:
+    breathe 2s ease-in-out infinite;
+
+  transition:
+    opacity .5s ease;
+}
+
+.tap.hidden {
+  display: none;
+}
+
+@keyframes breathe {
+
+  0%,100% {
+    opacity: .6;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+}
+
+
+
+
+.ending {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 200;
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      #8e654d 0%,
+      #654332 55%,
+      #43271d 100%
+    );
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .8s ease;
+}
+
+.ending.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+
+.ending::before {
+  content: "";
+
+  position: absolute;
+
+  width: 520px;
+  height: 520px;
+
+  left: 50%;
+  top: -170px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,224,183,.2);
+
+  filter:
+    blur(75px);
+
+  pointer-events: none;
+}
+
+
+
+
+.ending-table {
+  position: absolute;
+
+  left: -5%;
+  bottom: -5%;
+
+  width: 110%;
+  height: 35%;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(55,25,12,.12) 0px,
+      rgba(55,25,12,.12) 3px,
+      transparent 3px,
+      transparent 70px
+    ),
+    linear-gradient(
+      180deg,
+      #a66747,
+      #70402b
+    );
+
+  box-shadow:
+    inset 0 10px 25px rgba(40,15,5,.18),
+    0 -10px 30px rgba(40,15,5,.18);
+
+  transform:
+    perspective(700px)
+    rotateX(3deg);
+}
+
+
+
+
+.ending-stage {
+  position: relative;
+
+  width: min(760px, 100%);
+  height: min(610px, 92vh);
+
+  z-index: 5;
+
+  overflow: hidden;
+}
+
+
+
+
+.cat {
+  position: absolute;
+
+  left: -220px;
+  bottom: 19%;
+
+  width: 190px;
+  height: 150px;
+
+  opacity: 0;
+
+  transform:
+    scale(.92);
+
+  transition:
+    opacity .5s ease,
+    left 2.7s cubic-bezier(.55,.05,.25,1),
+    bottom .8s ease,
+    transform .8s ease;
+}
+
+.ending.show .cat {
+  opacity: 1;
+
+  left:
+    calc(50% - 95px);
+}
+
+
+
+
+.cat.sitting {
+  bottom: 19%;
+  transform:
+    scale(1);
+}
+
+
+
+
+.cat-svg {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 6px 6px rgba(50,25,15,.18)
+    );
+}
+
+
+
+
+.cat-shadow {
+  fill: rgba(60,30,15,.16);
+}
+
+
+
+
+.cat-tail {
+  transform-box: fill-box;
+  transform-origin: 80% 92%;
+
+  transition: transform .4s ease;
+}
+
+.cat-tail path {
+  fill: #c2a077;
+}
+
+
+
+
+.cat-body {
+  fill: #dcc0a0;
+}
+
+.cat-belly {
+  fill: #faf1e2;
+}
+
+
+
+
+.cat-paw-left,
+.cat-paw-right {
+  fill: #dcc0a0;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  transition: transform .3s ease;
+}
+
+
+
+
+.cat-head {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.cat-head-shape {
+  fill: #dcc0a0;
+}
+
+
+
+
+.cat-ear-left,
+.cat-ear-right {
+  fill: #c2a077;
+}
+
+.cat-ear-left-inner,
+.cat-ear-right-inner {
+  fill: #f0b8bb;
+}
+
+
+
+
+.cat-blush-left,
+.cat-blush-right {
+  fill: #f2b3ad;
+  opacity: .55;
+}
+
+
+
+
+.cat-eye-left,
+.cat-eye-right {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.cat-eye-left ellipse,
+.cat-eye-right ellipse {
+  fill: #4a3527;
+}
+
+.cat-eye-shine {
+  fill: #ffffff;
+}
+
+
+
+
+.cat-nose {
+  fill: #d98a8f;
+}
+
+.cat-mouth {
+  fill: none;
+
+  stroke: #7a5240;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+
+
+
+.cat-whiskers-left line,
+.cat-whiskers-right line {
+  stroke: rgba(90,60,45,.55);
+  stroke-width: 1.4;
+}
+
+
+
+
+.cat.walking .cat-paw-left {
+  animation:
+    pawWalk .28s ease-in-out infinite alternate;
+}
+
+.cat.walking .cat-paw-right {
+  animation:
+    pawWalk .28s ease-in-out .14s infinite alternate;
+}
+
+@keyframes pawWalk {
+  from {
+    transform:
+      translateY(0)
+      rotate(6deg);
+  }
+
+  to {
+    transform:
+      translateY(-9px)
+      rotate(-6deg);
+  }
+}
+
+.cat.walking .cat-tail {
+  animation:
+    tailWalk .5s ease-in-out infinite alternate;
+}
+
+@keyframes tailWalk {
+  from {
+    transform:
+      rotate(-10deg);
+  }
+
+  to {
+    transform:
+      rotate(12deg);
+  }
+}
+
+
+
+
+.cat:not(.walking) .cat-tail {
+  animation:
+    tailIdle 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes tailIdle {
+  from {
+    transform:
+      rotate(-4deg);
+  }
+
+  to {
+    transform:
+      rotate(6deg);
+  }
+}
+
+.cat:not(.walking) .cat-body,
+.cat:not(.walking) .cat-head {
+  animation:
+    breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.025);
+  }
+}
+
+
+
+
+.cat.note-pull .cat-paw-right {
+  transform:
+    translateY(-10px)
+    rotate(-20deg);
+}
+
+
+
+
+@keyframes blink {
+
+  0%, 92%, 100% {
+    transform:
+      scaleY(1);
+  }
+
+  95% {
+    transform:
+      scaleY(.08);
+  }
+}
+
+.cat-eye-left,
+.cat-eye-right {
+  animation:
+    blink 4s infinite;
+}
+
+
+
+
+.ending-question {
+  position: absolute;
+
+  left: 50%;
+  top: 12%;
+
+  width: 90%;
+
+  transform:
+    translateX(-50%)
+    translateY(15px);
+
+  text-align: center;
+
+  opacity: 0;
+
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.ending-question.show {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+.ending-question p {
+  margin: 0 0 20px;
+
+  color: #fff4e9;
+
+  font-size:
+    clamp(22px, 6vw, 35px);
+
+  line-height: 1.4;
+
+  text-shadow:
+    0 3px 7px rgba(40,20,10,.45);
+}
+
+
+
+
+.ending-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.ending button {
+  border: none;
+
+  padding:
+    12px 22px;
+
+  border-radius: 24px;
+
+  background:
+    #fff3e5;
+
+  color:
+    #5b3730;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 15px;
+
+  box-shadow:
+    0 5px 15px rgba(35,15,8,.25);
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    opacity .4s ease;
+}
+
+.ending button:hover {
+  transform:
+    translateY(-3px)
+    scale(1.03);
+
+  box-shadow:
+    0 8px 18px rgba(35,15,8,.3);
+}
+
+
+
+
+.ending-reaction {
+  position: absolute;
+
+  left: 50%;
+  top: 16%;
+
+  transform:
+    translateX(-50%)
+    translateY(15px);
+
+  width: 90%;
+
+  text-align: center;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .6s ease,
+    transform .6s ease;
+}
+
+.ending-reaction.show {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+
+  pointer-events: auto;
+}
+
+.reaction-text {
+  color:
+    #fff4e9;
+
+  font-size:
+    clamp(27px, 7vw, 43px);
+
+  text-shadow:
+    0 3px 7px rgba(40,20,10,.45);
+
+  margin-bottom:
+    22px;
+}
+
+
+
+
+.bouquet {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 21%;
+
+  width: 190px;
+  height: 135px;
+
+  transform:
+    translateX(-50%)
+    translateY(100px)
+    scale(.65);
+
+  opacity: 0;
+
+  transition:
+    opacity .9s ease,
+    transform 1s cubic-bezier(.22,1,.36,1);
+}
+
+.bouquet.show {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1);
+}
+
+
+
+
+.bouquet-wrap {
+  position: absolute;
+
+  left: 35px;
+  bottom: 0;
+
+  width: 120px;
+  height: 65px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f0e2d2,
+      #d1bca8
+    );
+
+  clip-path:
+    polygon(
+      18% 0,
+      82% 0,
+      100% 100%,
+      0 100%
+    );
+
+  filter:
+    drop-shadow(
+      0 5px 4px rgba(40,20,10,.2)
+    );
+}
+
+.bouquet-ribbon {
+  position: absolute;
+
+  left: 83px;
+  bottom: 3px;
+
+  width: 24px;
+  height: 17px;
+
+  border-radius: 50%;
+
+  background:
+    #6d91b8;
+
+  z-index: 5;
+}
+
+
+
+
+.tulip-stem {
+  position: absolute;
+
+  bottom: 49px;
+
+  width: 4px;
+  height: 65px;
+
+  border-radius: 5px;
+
+  background:
+    #66895f;
+
+  transform-origin:
+    bottom center;
+}
+
+.tulip-stem.s1 {
+  left: 40px;
+  transform: rotate(-14deg);
+}
+
+.tulip-stem.s2 {
+  left: 54px;
+  transform: rotate(-9deg);
+}
+
+.tulip-stem.s3 {
+  left: 68px;
+  transform: rotate(-4deg);
+}
+
+.tulip-stem.s4 {
+  left: 82px;
+  transform: rotate(1deg);
+}
+
+.tulip-stem.s5 {
+  left: 96px;
+  transform: rotate(6deg);
+}
+
+.tulip-stem.s6 {
+  left: 110px;
+  transform: rotate(11deg);
+}
+
+.tulip-stem.s7 {
+  left: 124px;
+  transform: rotate(16deg);
+}
+
+
+
+
+.tulip-leaf {
+  position: absolute;
+
+  width: 30px;
+  height: 15px;
+
+  border-radius:
+    100% 0 100% 0;
+
+  background:
+    #769968;
+
+  bottom: 59px;
+
+  transform-origin:
+    right center;
+}
+
+.tulip-leaf.l1 {
+  left: 32px;
+  transform: rotate(22deg);
+}
+
+.tulip-leaf.l2 {
+  left: 128px;
+  transform:
+    rotate(-22deg)
+    scaleX(-1);
+}
+
+.tulip-leaf.l3 {
+  left: 80px;
+  transform: rotate(6deg);
+}
+
+
+
+
+.tulip {
+  position: absolute;
+
+  width: 32px;
+  height: 37px;
+
+  bottom: 105px;
+
+  filter:
+    drop-shadow(
+      0 3px 4px rgba(30,45,80,.25)
+    );
+}
+
+.tulip-svg {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+}
+
+.rose-outer-petals path {
+  fill: #f8cfdb;
+}
+
+.rose-inner-petals path {
+  fill: #f4a9c0;
+}
+
+.rose-center {
+  fill: #e8829f;
+}
+
+.rose-spiral {
+  fill: none;
+
+  stroke: #e0709e;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.sunflower-petals ellipse {
+  fill: #ffcf3f;
+
+  stroke: #f2a900;
+  stroke-width: .5;
+}
+
+.sunflower-center {
+  fill: #6b4423;
+}
+
+.tulip.t1 {
+  left: 26px;
+  bottom: 95px;
+  transform: rotate(-10deg);
+}
+
+.tulip.t2 {
+  left: 40px;
+  bottom: 95px;
+  transform: rotate(-6deg);
+}
+
+.tulip.t3 {
+  left: 54px;
+  bottom: 95px;
+  transform: rotate(-3deg);
+}
+
+.tulip.t4 {
+  left: 68px;
+  bottom: 95px;
+  transform: rotate(0deg);
+}
+
+.tulip.t5 {
+  left: 82px;
+  bottom: 95px;
+  transform: rotate(3deg);
+}
+
+.tulip.t6 {
+  left: 96px;
+  bottom: 95px;
+  transform: rotate(6deg);
+}
+
+.tulip.t7 {
+  left: 110px;
+  bottom: 95px;
+  transform: rotate(10deg);
+}
+
+
+
+
+.bouquet.accepted {
+  opacity: 0;
+
+  transform:
+    translateX(-50%)
+    translateY(-20px)
+    scale(1.25);
+
+  pointer-events: none;
+}
+
+
+
+
+.cake {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 21%;
+
+  width: 150px;
+  height: 135px;
+
+  transform:
+    translateX(-50%)
+    translateY(40px)
+    scale(.7);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .8s ease,
+    transform .9s cubic-bezier(.22,1,.36,1);
+}
+
+.cake.show {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1);
+}
+
+.cake.fade-out {
+  opacity: 0;
+
+  transform:
+    translateX(-50%)
+    translateY(-15px)
+    scale(.9);
+}
+
+.cake-svg {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 6px 6px rgba(50,25,15,.2)
+    );
+}
+
+.cake-shadow {
+  fill: rgba(60,30,15,.16);
+}
+
+.cake-plate {
+  fill: #f0e2d2;
+}
+
+.cake-tier-bottom {
+  fill: #f6c9d8;
+}
+
+.cake-tier-top {
+  fill: #fbdfe9;
+}
+
+.cake-drip-bottom,
+.cake-drip-top {
+  fill: #fff4f8;
+}
+
+.cake-sprinkle {
+  fill: #d98fae;
+}
+
+.cake-candle {
+  fill: #ead7bd;
+}
+
+.cake-flame path {
+  fill: #ffb347;
+}
+
+.cake-flame {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+
+  animation:
+    flicker 1.4s ease-in-out infinite alternate;
+
+  transition:
+    opacity .5s ease,
+    transform .5s ease;
+}
+
+@keyframes flicker {
+  from {
+    transform: scale(1) rotate(-2deg);
+  }
+
+  to {
+    transform: scale(1.08) rotate(2deg);
+  }
+}
+
+.cake-flame.blown {
+  opacity: 0;
+
+  animation: none;
+
+  transform:
+    scale(.2)
+    translateY(4px);
+}
+
+
+
+
+.speech-bubble {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 62%;
+
+  transform:
+    translateX(-50%)
+    translateY(10px)
+    scale(.9);
+
+  min-width: 140px;
+
+  padding: 10px 18px;
+
+  background: #fff8f0;
+
+  color: #5b3a2e;
+
+  font-size:
+    clamp(14px, 4vw, 17px);
+
+  text-align: center;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 14px rgba(40,20,10,.25);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .5s ease,
+    transform .5s ease;
+}
+
+.speech-bubble.show {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1);
+}
+
+.speech-bubble::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -8px;
+
+  transform: translateX(-50%);
+
+  border-width: 8px 8px 0 8px;
+
+  border-style: solid;
+
+  border-color: #fff8f0 transparent transparent transparent;
+}
+
+
+
+
+.tap-blow {
+  z-index: 60;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .5s ease;
+}
+
+.tap-blow.show {
+  opacity: 1;
+}
+
+
+
+
+.bouquet-text {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 50%;
+
+  transform:
+    translateX(-50%)
+    translateY(-12px);
+
+  color:
+    #fff5ec;
+
+  font-size:
+    clamp(20px, 5vw, 29px);
+
+  white-space: nowrap;
+
+  text-shadow:
+    0 3px 7px rgba(40,20,10,.45);
+
+  opacity: 0;
+
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.bouquet-stage .bouquet-text {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+
+
+.final-note {
+  position: absolute;
+
+  left: 50%;
+  bottom: 15%;
+
+  width:
+    min(360px, 82vw);
+
+  min-height: 190px;
+
+  padding:
+    30px 25px;
+
+  transform:
+    translateX(-50%)
+    translateY(90px)
+    rotate(-2deg)
+    scale(.85);
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 29px,
+      rgba(120,80,50,.08) 30px
+    ),
+    #fffaf0;
+
+  border-radius:
+    3px;
+
+  box-shadow:
+    0 15px 35px rgba(30,15,8,.35);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity .8s ease,
+    transform 1s cubic-bezier(.22,1,.36,1);
+}
+
+.final-note.show {
+  opacity: 1;
+
+  pointer-events: auto;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    rotate(-2deg)
+    scale(1);
+}
+
+
+
+
+.final-note::before,
+.final-note::after {
+  content: "";
+
+  position: absolute;
+
+  width: 25px;
+  height: 25px;
+
+  border-color:
+    rgba(120,80,50,.25);
+
+  border-style: solid;
+}
+
+.final-note::before {
+  left: 10px;
+  top: 10px;
+
+  border-width:
+    1px 0 0 1px;
+}
+
+.final-note::after {
+  right: 10px;
+  bottom: 10px;
+
+  border-width:
+    0 1px 1px 0;
+}
+
+
+
+
+.final-note-text {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 125px;
+
+  color:
+    #543737;
+
+  font-size:
+    clamp(16px, 4.3vw, 20px);
+
+  line-height:
+    1.8;
+
+  text-align:
+    center;
+
+  white-space:
+    pre-line;
+}
+
+
+
+
+.replay-link {
+  position: absolute;
+
+  left: 50%;
+  bottom: 4%;
+
+  transform: translateX(-50%);
+
+  background: none;
+  border: none;
+
+  color: #fff4eb;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  text-shadow:
+    0 2px 5px rgba(50,20,10,.55);
+
+  transition: opacity .8s ease;
+
+  cursor: pointer;
+}
+
+.replay-link.show {
+  opacity: .8;
+
+  pointer-events: auto;
+}
+
+.replay-link:hover {
+  opacity: 1;
+}
+
+
+
+
+.cat.note-pull {
+  transform:
+    scale(1)
+    translateY(-5px);
+}
+
+
+
+
+.ending-back {
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+
+  z-index: 100;
+
+  opacity: 1;
+
+  background:
+    rgba(255,255,255,.88) !important;
+
+  padding:
+    9px 15px !important;
+
+  font-size:
+    13px !important;
+}
+
+
+
+
+.stage-button {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 8%;
+
+  transform:
+    translateX(-50%);
+
+  min-width: 100px;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.stage-button.show {
+  opacity: 1;
+
+  pointer-events: auto;
+}
+
+
+
+
+.paw {
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  opacity: .18;
+
+  color:
+    #fff4e9;
+
+  font-size: 21px;
+}
+
+
+
+
+@media (max-width: 500px) {
+
+  .ending-stage {
+    height: 90vh;
+  }
+
+  .cat {
+    width: 175px;
+    height: 140px;
+  }
+
+  .ending.show .cat {
+    left:
+      calc(50% - 87px);
+  }
+
+  .ending-question {
+    top: 11%;
+  }
+
+  .ending-question p {
+    font-size:
+      clamp(21px, 6vw, 29px);
+  }
+
+  .bouquet {
+    bottom: 21%;
+    transform:
+      translateX(-50%)
+      translateY(100px)
+      scale(.8);
+  }
+
+  .bouquet.show {
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(.8);
+  }
+
+  .final-note {
+    width: 84vw;
+    min-height: 200px;
+    bottom: 16%;
+    padding:
+      28px 20px;
+  }
+
+  .final-note-text {
+    font-size: 16px;
+  }
+
+  .ending-back {
+    top: 12px;
+    left: 12px;
+  }
+
+  .ending-table {
+    height: 34%;
+  }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+
+
+<div class="glow"></div>
+
+<div class="table"></div>
+
+
+
+
+<audio id="bgMusic" loop preload="none">
+  <source src="audio/bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="sfxPage" preload="auto">
+  <source src="audio/sfx-page.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="sfxEnvelope" preload="auto">
+  <source src="audio/sfx-envelope.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="sfxMeow" preload="auto">
+  <source src="audio/sfx-meow.mp3" type="audio/mpeg">
+</audio>
+
+
+<button
+  class="music-toggle"
+  id="musicToggle"
+  onclick="toggleMusic(event)"
+>
+  🔇
+</button>
+
+
+
+
+<div class="intro" id="intro">
+
+  <h1>Oiiiiiii</h1>
+
+  <p>
+    A lil something made just for youu.
+  </p>
+
+</div>
+
+
+
+
+<div class="book-area" id="bookArea">
+
+  <div class="book-shadow"></div>
+
+
+  
+
+  <button
+    class="book-back"
+    id="bookBack"
+    onclick="handleBookBack(event)"
+  >
+    ← Back
+  </button>
+
+
+  <div class="book" id="book">
+
+
+    
+
+    <div
+      class="closed-cover"
+      id="closedCover"
+    >
+
+      <div class="closed-spine"></div>
+
+      <div class="closed-cover-title">
+        Diary
+      </div>
+
+      <div class="closed-cover-edge"></div>
+
+    </div>
+
+
+    
+
+    <div class="open-book" id="openBook">
+
+
+      
+
+      <div class="white-page left"></div>
+
+
+      
+
+      <div class="white-page right"></div>
+
+
+      
+
+      <div
+        class="for-you-page"
+        id="forYouPage"
+        onclick="turnPage(event)"
+      >
+
+        <div class="for-you-front">
+
+          <div class="for-you-content">
+            For You 🤍
+          </div>
+
+        </div>
+
+        <div class="for-you-back"></div>
+
+      </div>
+
+
+      
+
+      <div class="book-spine"></div>
+
+
+      
+
+      <div
+        class="letter-spread"
+        id="letterSpread"
+      >
+
+
+        
+
+        <div class="spread-page left">
+
+          <button class="envelope" onclick="openLetter(1,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(2,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(3,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(4,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(5,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(6,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(7,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(8,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(9,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(10,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+        </div>
+
+
+        
+
+        <div class="spread-page right">
+
+          <button class="envelope" onclick="openLetter(11,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(12,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(13,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(14,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(15,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(16,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(17,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(18,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(19,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+          <button class="envelope" onclick="openLetter(20,event)">
+            <span class="envelope-heart">♡</span>
+            <span class="read-mark">✓</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="tap" id="tap">
+  Tap the book to begin 📖
+</div>
+
+
+<button
+  class="skip-to-ending"
+  id="skipToEnding"
+  onclick="goToEndingFromLetter(event)"
+>
+  Next →
+</button>
+
+
+<div class="letter-progress" id="letterProgress">
+  <div class="letter-progress-fill" id="letterProgressFill"></div>
+  <span class="letter-progress-label" id="letterProgressLabel">0/20</span>
+</div>
+
+
+
+
+<div
+  class="letter-modal"
+  id="letterModal"
+  onclick="closeLetter(event)"
+>
+
+  <div
+    class="letter-paper"
+    onclick="event.stopPropagation()"
+  >
+
+    <button
+      class="close-letter"
+      onclick="closeLetter(event)"
+    >
+      ×
+    </button>
+
+    <div
+      class="letter-message"
+      id="letterMessage"
+    ></div>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="ending" id="ending">
+
+  <div class="ending-table"></div>
+
+
+  <div class="ending-stage" id="endingStage">
+
+
+    
+
+    <button
+      class="ending-back"
+      id="endingBack"
+      onclick="endingBackAction()"
+    >
+      ← Back
+    </button>
+
+
+    
+
+    <div class="cat walking" id="cat">
+
+      <svg
+        class="cat-svg"
+        viewBox="0 0 200 190"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+
+        <ellipse class="cat-shadow" cx="100" cy="180" rx="54" ry="7"></ellipse>
+
+        <g class="cat-tail">
+          <path d="M50,150 C14,138 10,94 50,77 C39,104 41,131 60,146 Z"></path>
+        </g>
+
+        <ellipse class="cat-body" cx="100" cy="148" rx="52" ry="40"></ellipse>
+        <ellipse class="cat-belly" cx="100" cy="161" rx="25" ry="21"></ellipse>
+
+        <ellipse class="cat-paw-left" cx="76" cy="181" rx="16" ry="11"></ellipse>
+        <ellipse class="cat-paw-right" cx="124" cy="181" rx="16" ry="11"></ellipse>
+
+        <g class="cat-head">
+
+          <path class="cat-ear-left" d="M55,55 L72,8 L98,52 Z"></path>
+          <path class="cat-ear-left-inner" d="M62,50 L73,23 L88,48 Z"></path>
+
+          <path class="cat-ear-right" d="M145,55 L128,8 L102,52 Z"></path>
+          <path class="cat-ear-right-inner" d="M138,50 L127,23 L112,48 Z"></path>
+
+          <circle class="cat-head-shape" cx="100" cy="85" r="55"></circle>
+
+          <ellipse class="cat-blush-left" cx="59" cy="99" rx="10" ry="6"></ellipse>
+          <ellipse class="cat-blush-right" cx="141" cy="99" rx="10" ry="6"></ellipse>
+
+          <g class="cat-eye-left">
+            <ellipse cx="78" cy="85" rx="7" ry="9"></ellipse>
+            <circle class="cat-eye-shine" cx="80.5" cy="81" r="2.4"></circle>
+          </g>
+
+          <g class="cat-eye-right">
+            <ellipse cx="122" cy="85" rx="7" ry="9"></ellipse>
+            <circle class="cat-eye-shine" cx="124.5" cy="81" r="2.4"></circle>
+          </g>
+
+          <path class="cat-nose" d="M96,100 L104,100 L100,106 Z"></path>
+
+          <path
+            class="cat-mouth"
+            d="M100,106 C100,112 92,114 88,110 M100,106 C100,112 108,114 112,110"
+          ></path>
+
+          <g class="cat-whiskers-left">
+            <line x1="34" y1="92" x2="66" y2="96"></line>
+            <line x1="34" y1="102" x2="66" y2="102"></line>
+          </g>
+
+          <g class="cat-whiskers-right">
+            <line x1="166" y1="92" x2="134" y2="96"></line>
+            <line x1="166" y1="102" x2="134" y2="102"></line>
+          </g>
+
+        </g>
+
+      </svg>
+
+    </div>
+
+
+    
+
+    <div
+      class="ending-question"
+      id="questionStage"
+    >
+
+      <p>
+        did you really read all 20...?
+      </p>
+
+      <div class="ending-buttons">
+
+        <button onclick="answerRead(true)">
+          YES 😁
+        </button>
+
+        <button onclick="answerRead(false)">
+          NO 😭
+        </button>
+
+      </div>
+
+    </div>
+
+
+    
+
+    <div
+      class="ending-reaction"
+      id="reactionStage"
+    >
+
+      <div
+        class="reaction-text"
+        id="reactionText"
+      ></div>
+
+      <button
+        class="stage-button"
+        id="reactionNext"
+        onclick="showBouquetStage()"
+      >
+        Next →
+      </button>
+
+    </div>
+
+
+    
+
+    <div id="bouquetStage">
+
+
+      <div
+        class="bouquet-text"
+        id="bouquetText"
+      >
+        For you 💗
+      </div>
+
+
+
+      <div
+        class="bouquet"
+        id="bouquet"
+      >
+
+        <div class="tulip-stem s1"></div>
+        <div class="tulip-stem s2"></div>
+        <div class="tulip-stem s3"></div>
+        <div class="tulip-stem s4"></div>
+        <div class="tulip-stem s5"></div>
+        <div class="tulip-stem s6"></div>
+        <div class="tulip-stem s7"></div>
+
+        <div class="tulip-leaf l1"></div>
+        <div class="tulip-leaf l2"></div>
+        <div class="tulip-leaf l3"></div>
+
+        <div class="tulip t1">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="rose-outer-petals">
+              <path transform="rotate(0 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(60 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(120 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(180 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(240 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(300 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+            </g>
+            <g class="rose-inner-petals">
+              <path transform="rotate(30 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(102 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(174 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(246 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(318 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+            </g>
+            <circle class="rose-center" cx="20" cy="23" r="3.5"></circle>
+            <path class="rose-spiral" d="M20,24 C23,24 24,21 22,19 C20,17 17,18 17,21 C17,23 19,25 21,24"></path>
+          </svg>
+        </div>
+
+        <div class="tulip t2">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="sunflower-petals">
+              <ellipse transform="rotate(0 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(36 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(72 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(108 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(144 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(180 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(216 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(252 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(288 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(324 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+            </g>
+            <circle class="sunflower-center" cx="20" cy="23" r="7"></circle>
+          </svg>
+        </div>
+
+        <div class="tulip t3">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="rose-outer-petals">
+              <path transform="rotate(0 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(60 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(120 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(180 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(240 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(300 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+            </g>
+            <g class="rose-inner-petals">
+              <path transform="rotate(30 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(102 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(174 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(246 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(318 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+            </g>
+            <circle class="rose-center" cx="20" cy="23" r="3.5"></circle>
+            <path class="rose-spiral" d="M20,24 C23,24 24,21 22,19 C20,17 17,18 17,21 C17,23 19,25 21,24"></path>
+          </svg>
+        </div>
+
+        <div class="tulip t4">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="sunflower-petals">
+              <ellipse transform="rotate(0 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(36 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(72 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(108 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(144 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(180 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(216 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(252 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(288 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(324 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+            </g>
+            <circle class="sunflower-center" cx="20" cy="23" r="7"></circle>
+          </svg>
+        </div>
+
+        <div class="tulip t5">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="rose-outer-petals">
+              <path transform="rotate(0 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(60 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(120 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(180 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(240 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(300 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+            </g>
+            <g class="rose-inner-petals">
+              <path transform="rotate(30 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(102 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(174 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(246 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(318 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+            </g>
+            <circle class="rose-center" cx="20" cy="23" r="3.5"></circle>
+            <path class="rose-spiral" d="M20,24 C23,24 24,21 22,19 C20,17 17,18 17,21 C17,23 19,25 21,24"></path>
+          </svg>
+        </div>
+
+        <div class="tulip t6">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="sunflower-petals">
+              <ellipse transform="rotate(0 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(36 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(72 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(108 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(144 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(180 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(216 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(252 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(288 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+              <ellipse transform="rotate(324 20 23)" cx="20" cy="9" rx="4" ry="9"></ellipse>
+            </g>
+            <circle class="sunflower-center" cx="20" cy="23" r="7"></circle>
+          </svg>
+        </div>
+
+        <div class="tulip t7">
+          <svg class="tulip-svg" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="rose-outer-petals">
+              <path transform="rotate(0 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(60 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(120 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(180 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(240 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+              <path transform="rotate(300 20 24)" d="M20,24 C13,22 11,13 20,4 C29,13 27,22 20,24 Z"></path>
+            </g>
+            <g class="rose-inner-petals">
+              <path transform="rotate(30 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(102 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(174 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(246 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+              <path transform="rotate(318 20 23)" d="M20,23 C15,21 13,16 20,10 C27,16 25,21 20,23 Z"></path>
+            </g>
+            <circle class="rose-center" cx="20" cy="23" r="3.5"></circle>
+            <path class="rose-spiral" d="M20,24 C23,24 24,21 22,19 C20,17 17,18 17,21 C17,23 19,25 21,24"></path>
+          </svg>
+        </div>
+
+        <div class="bouquet-wrap"></div>
+        <div class="bouquet-ribbon"></div>
+
+      </div>
+
+
+      <div
+        class="cake"
+        id="cake"
+      >
+
+        <svg class="cake-svg" viewBox="0 0 140 130" xmlns="http://www.w3.org/2000/svg">
+
+          <ellipse class="cake-shadow" cx="70" cy="118" rx="52" ry="8"></ellipse>
+
+          <rect class="cake-plate" x="14" y="104" width="112" height="10" rx="5"></rect>
+
+          <rect class="cake-tier-bottom" x="24" y="70" width="92" height="38" rx="6"></rect>
+          <rect class="cake-drip-bottom" x="24" y="70" width="92" height="12" rx="6"></rect>
+
+          <rect class="cake-tier-top" x="40" y="38" width="60" height="36" rx="6"></rect>
+          <rect class="cake-drip-top" x="40" y="38" width="60" height="11" rx="6"></rect>
+
+          <circle class="cake-sprinkle" cx="35" cy="88" r="2"></circle>
+          <circle class="cake-sprinkle" cx="50" cy="95" r="2"></circle>
+          <circle class="cake-sprinkle" cx="65" cy="86" r="2"></circle>
+          <circle class="cake-sprinkle" cx="90" cy="92" r="2"></circle>
+          <circle class="cake-sprinkle" cx="105" cy="85" r="2"></circle>
+          <circle class="cake-sprinkle" cx="52" cy="55" r="2"></circle>
+          <circle class="cake-sprinkle" cx="75" cy="60" r="2"></circle>
+          <circle class="cake-sprinkle" cx="88" cy="50" r="2"></circle>
+
+          <rect class="cake-candle" x="66" y="16" width="8" height="24" rx="2"></rect>
+
+          <g class="cake-flame" id="cakeFlame">
+            <path d="M70,4 C74,9 76,13 73,17 C71,19 69,19 67,17 C64,13 66,9 70,4 Z"></path>
+          </g>
+
+        </svg>
+
+      </div>
+
+
+      <div
+        class="speech-bubble"
+        id="speechBubble"
+      >
+        Make a wish! 🎂
+      </div>
+
+
+      <div
+        class="tap tap-blow"
+        id="tapBlow"
+      >
+        Tap the screen to blow 🕯️
+      </div>
+
+
+      <button
+        class="stage-button"
+        id="acceptButton"
+        onclick="acceptBouquet()"
+      >
+        Accept 🌷
+      </button>
+
+    </div>
+
+
+    
+
+    <div
+      class="final-note"
+      id="finalNote"
+    >
+
+      <div
+        class="final-note-text"
+        id="finalNoteText"
+      ></div>
+
+    </div>
+
+
+    <button
+      class="replay-link"
+      id="replayLink"
+      onclick="location.reload()"
+    >
+      ↺ Watch again
+    </button>
+
+
+  </div>
+
+</div>
+
+
+<script>
+
+
+
+const book =
+  document.getElementById("book");
+
+const bookArea =
+  document.getElementById("bookArea");
+
+const intro =
+  document.getElementById("intro");
+
+const tap =
+  document.getElementById("tap");
+
+const closedCover =
+  document.getElementById("closedCover");
+
+const openBook =
+  document.getElementById("openBook");
+
+const forYouPage =
+  document.getElementById("forYouPage");
+
+const letterModal =
+  document.getElementById("letterModal");
+
+const letterMessage =
+  document.getElementById("letterMessage");
+
+
+
+
+let bookOpened = false;
+let pageTurned = false;
+
+
+
+
+const ending =
+  document.getElementById("ending");
+
+const endingStage =
+  document.getElementById("endingStage");
+
+const cat =
+  document.getElementById("cat");
+
+const questionStage =
+  document.getElementById("questionStage");
+
+const reactionStage =
+  document.getElementById("reactionStage");
+
+const reactionText =
+  document.getElementById("reactionText");
+
+const reactionNext =
+  document.getElementById("reactionNext");
+
+const bouquet =
+  document.getElementById("bouquet");
+
+const acceptButton =
+  document.getElementById("acceptButton");
+
+const finalNote =
+  document.getElementById("finalNote");
+
+const finalNoteText =
+  document.getElementById("finalNoteText");
+
+const replayLink =
+  document.getElementById("replayLink");
+
+const cake =
+  document.getElementById("cake");
+
+const speechBubble =
+  document.getElementById("speechBubble");
+
+const tapBlow =
+  document.getElementById("tapBlow");
+
+const cakeFlame =
+  document.getElementById("cakeFlame");
+
+
+let endingStageNumber = 0;
+let endingStarted = false;
+let selectedAnswer = null;
+let currentLetterNumber = null;
+let noteTypingTimer = null;
+
+const skipToEnding =
+  document.getElementById("skipToEnding");
+
+const bgMusic =
+  document.getElementById("bgMusic");
+
+const sfxPage =
+  document.getElementById("sfxPage");
+
+const sfxEnvelope =
+  document.getElementById("sfxEnvelope");
+
+const sfxMeow =
+  document.getElementById("sfxMeow");
+
+const musicToggle =
+  document.getElementById("musicToggle");
+
+let musicPlaying = false;
+
+const letterProgress =
+  document.getElementById("letterProgress");
+
+const letterProgressFill =
+  document.getElementById("letterProgressFill");
+
+const letterProgressLabel =
+  document.getElementById("letterProgressLabel");
+
+const totalLetters = 20;
+
+
+
+
+function updateLetterProgress() {
+
+  const readCount =
+    document.querySelectorAll(
+      ".envelope.read"
+    ).length;
+
+  const percent =
+    (readCount / totalLetters) * 100;
+
+  letterProgressFill.style.width =
+    percent + "%";
+
+  letterProgressLabel.textContent =
+    readCount + "/" + totalLetters;
+
+}
+
+
+
+
+function toggleMusic(event) {
+
+  event.stopPropagation();
+
+  if (musicPlaying) {
+
+    bgMusic.pause();
+
+    musicPlaying = false;
+
+    musicToggle.textContent = "🔇";
+
+  } else {
+
+    bgMusic.volume = .5;
+
+    bgMusic.play().catch(
+      function() {}
+    );
+
+    musicPlaying = true;
+
+    musicToggle.textContent = "🎵";
+
+  }
+
+}
+
+
+
+
+function playSfx(sound) {
+
+  sound.currentTime = 0;
+
+  sound.play().catch(
+    function() {}
+  );
+
+}
+
+
+
+
+closedCover.addEventListener(
+  "click",
+  function(event) {
+
+    event.stopPropagation();
+
+    if (bookOpened) {
+      return;
+    }
+
+    bookOpened = true;
+
+
+    
+
+    playSfx(sfxPage);
+
+    if (!musicPlaying) {
+      toggleMusic(event);
+    }
+
+
+    
+
+    intro.style.opacity = "0";
+
+    intro.style.transform =
+      "translateX(-50%) translateY(-15px)";
+
+
+    
+
+    tap.classList.add("hidden");
+    tap.style.display = "none";
+
+
+    
+
+    bookArea.classList.add("opened");
+
+  }
+);
+
+
+
+
+function turnPage(event) {
+
+  event.stopPropagation();
+
+  if (!bookOpened) {
+    return;
+  }
+
+  if (pageTurned) {
+    return;
+  }
+
+  pageTurned = true;
+
+  playSfx(sfxPage);
+
+  openBook.classList.add("page-turned");
+
+  skipToEnding.classList.add("show");
+
+  letterProgress.classList.add("show");
+
+}
+
+
+
+
+function handleBookBack(event) {
+
+  event.stopPropagation();
+
+
+  
+
+  if (
+    letterModal.classList.contains("show")
+  ) {
+
+    letterModal.classList.remove("show");
+
+    return;
+  }
+
+
+  
+
+  if (pageTurned) {
+
+    pageTurned = false;
+
+    playSfx(sfxPage);
+
+    openBook.classList.remove(
+      "page-turned"
+    );
+
+    skipToEnding.classList.remove("show");
+
+    letterProgress.classList.remove("show");
+
+    return;
+  }
+
+
+  
+
+  if (bookOpened) {
+
+    bookOpened = false;
+
+    pageTurned = false;
+
+    playSfx(sfxPage);
+
+    openBook.classList.remove(
+      "page-turned"
+    );
+
+    skipToEnding.classList.remove("show");
+
+    letterProgress.classList.remove("show");
+
+    bookArea.classList.remove(
+      "opened"
+    );
+
+
+    
+
+    intro.style.opacity = "1";
+
+    intro.style.transform =
+      "translateX(-50%)";
+
+
+    
+
+    tap.style.display = "block";
+
+    tap.classList.remove("hidden");
+
+  }
+
+}
+
+
+
+
+const letters = {
+
+  1: {
+    message:
+`Dear Harshita,
+
+I am writing this letter to wish you a very very veryyyyy happi birthday
+
+I really hope you have a good one, and i hope you get lots and lotsss of gifts, very well i also hope that you find dis day very memorable. I really don't know why I decided to do alllat but i hope this makes your day and it makes you heppiee.There's 20 letters in this bec you've turned 20, well this was the first letter idk if you've selected it in random or anything but oh well that's honestly I wanted to say to you in this one go go to the next onee`
+  },
+
+  2: {
+    message:
+`hewlo Harshita,
+
+lowkey this was my first impression of you you sooo innocent and soo much pure, caring and soo much yk im not getting enough words, But doesn't change much of todays, you are very caring and loving person, has a pure heart, and guess what you ain't that innocent tho 😭, but you're one person i do respect much and you're a veryy good friendo of mine`
+  },
+
+  3: {
+    message:
+`hewooo Hersheys
+
+Honestly im so glad i met a person like you, me just want to say you're sooooooooo amazing, keep doing your good work, and i hope you get your gym goalsss 💪. wanted to say pls do take care of yourself, stay safe and godd pls protect this woman at all costs 😇`
+  },
+
+  4: {
+    message:
+`Howdy Hersheys,
+
+yk Sometimes i laugh at something even if its som silly text or silly things you've said in a VC, yeah rn i could only think of screeling rolls 😭, lol and your voice sometimes did used to make me laugh idk but but you've got a beautiful voice im not joking hmmmmmmmm what else funny things yk let it be some yap or something you say random i giggle, and yk everything is memorable. You're a very fun person, incase someone's having a bad day probably a little talk or a joke from you would make their entire day, sometimes everyone needs a person like you in their life lol.`
+  },
+
+  5: {
+    message:
+`Hello Palak,
+
+You really is a vewwy good person, i appreciate a lot of things about youu.. I really don't know where to start out with buut here goess....
+ a thing i like abt you mayb yk you're honest with most of your decisions, and i also like your dedication for your studies and career, honestly ive only met a few people like that, which makes you stand out of em :) not forgeting to mention you are sooo beautiful and pretty, and is much caring. And hey sure you're in my top 10 fav person list haha, you hab a much caring heart especially for cattos birbs or any other animal, i love that. you still have a little child in your mind, we all do hmmmmm`
+  },
+
+  6: {
+    message:
+`Hello Palak,
+
+hey um for this letter i just wanted to remind you that incase if you're having a bad day, yk not today ik you'd be the happiest for tdy but as i was saying if incase it's any other day, if you're having a bad time, feeling down, depressed or anything sure i'd be so glad to help you anyway i can, let it be small or big things i'll be there for you whenever im available, whenever you need. sure i could do calls or text doesn't matter aaaall i care abt is if you're okay and heppiee.
+Yk maybe sharing things with someone can reduce the weight of it, you dont need to carry it alone, you can trust meee.`
+  },
+
+  7: {
+    message:
+`hellloo dear,
+
+This is a silly letter, I hope you cattos come towards you when you say ps ps pss, i hope doggos wag thier tails wen they see you, i hope animals eat da food you gib them hapily, i hope lil birbs come and sit in your finger, I hope everything works out well for you, and most importantly I pray to gld you become successful in life and hab a good career with great salaryy, Don't forget to call me to plan your dream house, also i hope you get lots of kit kats today, aaaaand very very veeeerryyy important stuff, i hope you stay happy all day! :)`
+  },
+
+  8: {
+    message:
+`psst hello palak,
+
+Yk i've always wanted to say one thing towards you, yk there would be difficult times in life, even if its dragging you back, if it's abiut someone, or if its something work related, deadlines etc etc, put a smile on your face and face it, you can do it, even if no one can you can, I beleive in you, or if things get too much heavy, you hab me, you can talk to me text or call whatever it is aaaand I am so glad if i could help you, if there would be one person who wants to see you happy and successful in your life it'd be me, and while doing every work put your soul in it, do it for your parents, do it for people who believe in you. Trust it, You've got this!`
+  },
+
+  9: {
+    message:
+`henlo Harshita, 
+
+yk i love yapping with you, i like every convo with you, let it be som debate, , som serios matter hmm, or small talks orr maybe som ragebait from you 😭, mayb som silly matter everything feeels wort it even if im stressed poof its gone, you dat amazing. yk i think everyone needs a harshita in thier life hehe 😹`
+  },
+
+  10: {
+    message:
+`Ayoooo Can't believe you've opened this many letters gah daym idk if you've opened these in order or not but this was the 10th one i wrote, means you're half way there, keep going! almost there hehe`
+  },
+
+  11: {
+    message:
+`HIII Hersheys
+
+There are som things that i hope you NEVER stop doing, such as.. Laughing at most random things, getting excited over small stuffs, turning som ordinary moments into unforgettable memories without knowing, making someone else's day when they're going through a hard time, saying everything that pops up in your head.. BAasically, I hope you never feel like you have to change the parts of yourself that make you happy just because other people might not understand them. JUST stay exactly as chaotic, funny, random, and genuinely yourself as you are.`
+  },
+
+  12: {
+    message:
+`hellloo dearest Palak,
+
+me just wanted to say, som things you should hear sometimes, when no ones available for help, just remember me saying these things to you in your head.... You're doing better than you think you are.. You really don't  need to figure out everything right now, it's completely okay to take things one step at a time... and ofc you're allowed to hab bad days, one bad day doesn't erase all the good ones :) sure and do take rests, you don't have to be productive all the time. You SHOULD be proud of yourself for the things you've managed to get through even when nobody else noticed.. its okay to change your mind, its okay to change decisions, its okay to make mistakes, its okay to start something again... Don't be too hard on yourself for not being where you thought you'd be... Everyone figures things out at their own pace. If you forget all of these.. remember dis shorrt: 
+You're doing okay. Keep going. You've got this!`
+  },
+
+  13: {
+    message:
+`hola Harshita
+
+you hab a really nicceee sense of humor, you genuinely essy to appreciate, you hab your own way of doing things and honestly? it works! you hab a great knowledge abt fashion you da real fashionista, you're a very good cat mom hehe.`
+  },
+
+  14: {
+    message:
+`HARSHITA 2026 personality report
+
+Randomness             97%
+Humor                  94%
+Chaos                  90%
+patience               system error 🥀
+caring                 80%
+heppie                 81%
+Catto                  100%
+Angy                   80%
+Locked in              99% (1% screeling rolls)
+Being Harshita         10000%`
+
+  },
+
+  15: {
+    message:
+`Hey Harshita, 
+
+well you could gib this reply in chat, would you like to meet me irl someday? well i talked with mystic, mystic and me gonna meet someday ^^ well im looking forward for that day, aaand similarly i hope i can meet you one day asw! (don't forget to gib a reply in chat for this please?)`
+  },
+
+  16: {
+    message:
+`QUEST: Survive Another Year
+ Objective: Have a ridiculously good year
+ Bonus objective: Try something new
+ Side quest: Don't overthink everything
+ Secret achievement: Make at least 100 stupid jokes
+ Legendary achievement: Have a year worth remembering`
+  },
+
+  17: {
+    message:
+`Hellooo Hersheys...
+
+this letter basically the behind the scenes of this.. soo i downloaded this app called acode, dont hab a laptop yet, aaand coded this into Git hub to make it a website, i learned a bit of coding from my freinds and honestly it was a good experience, used chat gpt and claude for help like smol errors and stuff, well me being honest i did put a bit more effort in this and total time took something like almost 2 months, it wasn't easy but well for someone like you its worth it for! i hope you smiled atleast once while reading something... :)`
+  },
+
+  18: {
+    message:
+`helloo Harshita,
+
+this is just something small, i wanted to say life is worth living.. and even small things may make someone happpi, do take care abt yourself, even if you think you're not good enough or imperfect, nobody is born perfect, if i could change something about you... I would change nothing! because.. in my eyes you're perfect! and do things that make you happi.`
+  },
+
+  19: {
+    message:
+`hello palak, 
+
+if doing these for your bday was too much don't kill me for this 😭... idk why i put dis much effort but oh well i hope dis day goes amazing and so much memorable... not even a single person wishes me at 12:00 (i'd cry if someone did btw 😭 ) but im glad i could make you dis..`
+  },
+
+  20: {
+    message:
+`Dear Harshita,
+
+You made it to the last letter...
+
+Oi look at you, you were a small kid, you've grown up made it to your 20's, congratulations, you've achived success so much times, made others heppie because of you, faced difficult times with courage, understood lessons from past mistakes and failures, and hey you're still hardworking, take a moment to appreciate yourself, you should be proud of yourself, take a moment to talk to your younger self to say, "hey we've made it till here together, and we could do so much in the future, we'll face every challenges, thank you"i hope you smiled atleast once while reading all these letters... aaand ig thats it, i hope allat 2 months of efforts put a smile on your face 😭 im not lucky enough to see dat smile irl rn sooo yeah there it goess.`
+  }
+
+};
+
+
+
+
+function openLetter(number, event) {
+
+  event.stopPropagation();
+
+  if (!openBook.classList.contains("page-turned")) {
+    return;
+  }
+
+  const letter =
+    letters[number];
+
+  if (!letter) {
+    return;
+  }
+
+
+  
+
+  currentLetterNumber = number;
+
+
+  
+
+  const envelope =
+    event.currentTarget;
+
+  playSfx(sfxEnvelope);
+
+  envelope.classList.add("read");
+
+  updateLetterProgress();
+
+
+  
+
+  letterMessage.textContent =
+    letter.message;
+
+
+  
+
+  letterModal.classList.add("show");
+
+}
+
+
+
+
+function closeLetter(event) {
+
+  event.stopPropagation();
+
+  letterModal.classList.remove("show");
+
+}
+
+
+
+
+function goToEndingFromLetter(event) {
+
+  event.stopPropagation();
+
+  letterModal.classList.remove("show");
+
+  setTimeout(
+    startEnding,
+    500
+  );
+
+  currentLetterNumber = null;
+
+}
+
+
+
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Escape") {
+
+      if (
+        letterModal.classList.contains("show")
+      ) {
+
+        letterModal.classList.remove(
+          "show"
+        );
+
+        currentLetterNumber = null;
+
+      }
+
+    }
+
+  }
+);
+
+
+
+
+function startEnding() {
+
+  if (endingStarted) {
+    return;
+  }
+
+  endingStarted = true;
+
+  endingStageNumber = 0;
+
+  selectedAnswer = null;
+
+
+  
+
+  openBook.classList.remove(
+    "page-turned"
+  );
+
+  pageTurned = false;
+
+  skipToEnding.classList.remove("show");
+
+
+  
+
+  setTimeout(
+    function() {
+
+      bookArea.classList.add(
+        "diary-leaving"
+      );
+
+    },
+    850
+  );
+
+
+  
+
+  setTimeout(
+    function() {
+
+      ending.classList.add("show");
+
+      resetEndingVisuals();
+
+      setTimeout(
+        function() {
+
+          cat.classList.add("walking");
+
+        },
+        100
+      );
+
+      
+
+      setTimeout(
+        function() {
+
+          cat.classList.remove(
+            "walking"
+          );
+
+          cat.classList.add(
+            "sitting"
+          );
+
+          questionStage.classList.add(
+            "show"
+          );
+
+        },
+        2900
+      );
+
+    },
+    950
+  );
+
+}
+
+
+
+
+function resetEndingVisuals() {
+
+  questionStage.classList.remove(
+    "show"
+  );
+
+  reactionStage.classList.remove(
+    "show"
+  );
+
+  reactionNext.classList.remove(
+    "show"
+  );
+
+  bouquet.classList.remove(
+    "show",
+    "accepted"
+  );
+
+  acceptButton.classList.remove(
+    "show"
+  );
+
+  finalNote.classList.remove(
+    "show"
+  );
+
+  finalNoteText.textContent = "";
+
+  bouquetStage.classList.remove(
+    "bouquet-stage"
+  );
+
+  cat.classList.remove(
+    "sitting",
+    "walking",
+    "note-pull"
+  );
+
+}
+
+
+
+
+function answerRead(answer) {
+
+  selectedAnswer = answer;
+
+  endingStageNumber = 1;
+
+  questionStage.classList.remove(
+    "show"
+  );
+
+
+  if (answer) {
+
+    reactionText.textContent =
+      "YIPPPPEEEE 😁";
+
+  } else {
+
+    reactionText.textContent =
+      "aww shucks anyway 😭";
+
+  }
+
+
+  
+
+  setTimeout(
+    function() {
+
+      reactionStage.classList.add(
+        "show"
+      );
+
+      reactionNext.classList.add(
+        "show"
+      );
+
+    },
+    450
+  );
+
+}
+
+
+
+
+function showBouquetStage() {
+
+  endingStageNumber = 2;
+
+  reactionStage.classList.remove(
+    "show"
+  );
+
+  reactionNext.classList.remove(
+    "show"
+  );
+
+
+  setTimeout(
+    function() {
+
+      bouquetStage.classList.add(
+        "bouquet-stage"
+      );
+
+      bouquet.classList.add(
+        "show"
+      );
+
+      acceptButton.classList.add(
+        "show"
+      );
+
+    },
+    500
+  );
+
+}
+
+
+
+
+function acceptBouquet() {
+
+  endingStageNumber = 3;
+
+  acceptButton.classList.remove(
+    "show"
+  );
+
+  bouquet.classList.add(
+    "accepted"
+  );
+
+
+  
+
+  setTimeout(
+    showCakeStage,
+    900
+  );
+
+}
+
+
+
+
+function showCakeStage() {
+
+  cake.classList.add("show");
+
+  speechBubble.classList.add("show");
+
+  tapBlow.classList.add("show");
+
+  ending.addEventListener(
+    "click",
+    blowCandle
+  );
+
+}
+
+
+
+
+function blowCandle(event) {
+
+  ending.removeEventListener(
+    "click",
+    blowCandle
+  );
+
+
+  
+
+  cakeFlame.classList.add("blown");
+
+  speechBubble.classList.remove("show");
+
+  tapBlow.classList.remove("show");
+
+
+  
+
+  setTimeout(
+    function() {
+
+      cake.classList.add("fade-out");
+
+      cat.classList.add(
+        "note-pull"
+      );
+
+      playSfx(sfxMeow);
+
+      showFinalNote();
+
+    },
+    900
+  );
+
+}
+
+
+
+
+function showFinalNote() {
+
+  finalNote.classList.add(
+    "show"
+  );
+
+
+  
+
+  const noteText =
+`Happy Birthday Harshita, have a good one.
+
+     -By yours indo/ mr nri/ kiddo/ angreyz`;
+
+
+  finalNoteText.textContent = "";
+
+  let index = 0;
+
+  clearInterval(
+    noteTypingTimer
+  );
+
+  noteTypingTimer =
+    setInterval(
+      function() {
+
+        finalNoteText.textContent +=
+          noteText.charAt(index);
+
+        index++;
+
+        if (index >= noteText.length) {
+
+          clearInterval(
+            noteTypingTimer
+          );
+
+          replayLink.classList.add(
+            "show"
+          );
+
+        }
+
+      },
+      42
+    );
+
+}
+
+
+
+
+function endingBackAction() {
+
+  
+
+  if (endingStageNumber === 0) {
+
+    returnToDiary();
+
+    return;
+  }
+
+
+  
+
+  if (endingStageNumber === 1) {
+
+    endingStageNumber = 0;
+
+    reactionStage.classList.remove(
+      "show"
+    );
+
+    reactionNext.classList.remove(
+      "show"
+    );
+
+    setTimeout(
+      function() {
+
+        questionStage.classList.add(
+          "show"
+        );
+
+      },
+      350
+    );
+
+    return;
+  }
+
+
+  
+
+  if (endingStageNumber === 2) {
+
+    endingStageNumber = 1;
+
+    bouquet.classList.remove(
+      "show"
+    );
+
+    acceptButton.classList.remove(
+      "show"
+    );
+
+    bouquetStage.classList.remove(
+      "bouquet-stage"
+    );
+
+    setTimeout(
+      function() {
+
+        reactionStage.classList.add(
+          "show"
+        );
+
+        reactionNext.classList.add(
+          "show"
+        );
+
+      },
+      500
+    );
+
+    return;
+  }
+
+
+  
+
+  if (endingStageNumber === 3) {
+
+    endingStageNumber = 2;
+
+    clearInterval(
+      noteTypingTimer
+    );
+
+    finalNote.classList.remove(
+      "show"
+    );
+
+    cat.classList.remove(
+      "note-pull"
+    );
+
+    setTimeout(
+      function() {
+
+        bouquet.classList.remove(
+          "accepted"
+        );
+
+        bouquet.classList.add(
+          "show"
+        );
+
+        acceptButton.classList.add(
+          "show"
+        );
+
+      },
+      500
+    );
+
+  }
+
+}
+
+
+
+
+function returnToDiary() {
+
+  ending.classList.remove(
+    "show"
+  );
+
+
+  
+
+  bookArea.classList.remove(
+    "diary-leaving"
+  );
+
+  bookArea.classList.add(
+    "opened"
+  );
+
+  bookOpened = true;
+
+  pageTurned = false;
+
+  openBook.classList.remove(
+    "page-turned"
+  );
+
+
+  
+
+  setTimeout(
+    function() {
+
+      endingStarted = false;
+
+    },
+    800
+  );
+
+}
+
+
+
+
+document.getElementById(
+  "endingBack"
+).addEventListener(
+  "click",
+  function(event) {
+
+    event.stopPropagation();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
